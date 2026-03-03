@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — Zane Ely</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white:     #f7f8fc;
+      --blue-100:  #d6dffa;
+      --blue-200:  #a8baf5;
+      --blue-400:  #4a72e8;
+      --blue-500:  #2f57d4;
+      --slate-200: #c9d0e8;
+      --slate-400: #7b87ab;
+      --slate-600: #3d4a6b;
+      --black:     #0d1120;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--slate-600);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(247,248,252,0.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--blue-100);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: center;
+      padding: 0 4rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.74rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      padding: 1.2rem 0 1rem;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      display: block;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--blue-400); border-bottom-color: var(--blue-400); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 9rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute;
+      top: -80px; right: -120px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #bfcdf8 0%, #dce6fc 40%, transparent 72%);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .page-header-inner { position: relative; z-index: 1; }
+    .page-eyebrow {
+      font-size: 0.73rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+    .page-sub {
+      font-size: 1rem;
+      color: var(--slate-400);
+      max-width: 460px;
+    }
+
+    /* CONTACT LAYOUT */
+    .contact-body {
+      padding: 0 4rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* LEFT — info */
+    .contact-info {}
+    .contact-info-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 2rem;
+    }
+    .contact-item {
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--blue-100);
+    }
+    .contact-item:last-child { border-bottom: 1px solid var(--blue-100); }
+    .contact-item-type {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      margin-bottom: 0.3rem;
+    }
+    .contact-item-value {
+      font-size: 1rem;
+      color: var(--slate-600);
+      text-decoration: none;
+      transition: color 0.2s;
+      display: inline-block;
+    }
+    a.contact-item-value:hover { color: var(--blue-400); }
+
+    /* RIGHT — form */
+    .contact-form {}
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .form-group:last-of-type { margin-bottom: 0; }
+    .form-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+    }
+    .form-input,
+    .form-textarea {
+      background: #fff;
+      border: 1px solid var(--slate-200);
+      border-radius: 2px;
+      padding: 0.8rem 1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--black);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--blue-400);
+      box-shadow: 0 0 0 3px rgba(74,114,232,0.12);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 160px;
+      line-height: 1.6;
+    }
+    .form-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .form-note {
+      font-size: 0.75rem;
+      color: var(--slate-400);
+    }
+    .btn-submit {
+      background: var(--blue-500);
+      color: #fff;
+      padding: 0.85rem 2.2rem;
+      border: none;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover { background: var(--blue-400); transform: translateY(-2px); }
+
+    /* Success state */
+    .form-success {
+      display: none;
+      padding: 2rem;
+      border: 1px solid var(--blue-100);
+      border-radius: 2px;
+      background: #f0f4fe;
+      text-align: center;
+    }
+    .form-success .success-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+    .form-success p { font-size: 0.9rem; color: var(--slate-600); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 3.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(47,87,212,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .footer-left { position: relative; z-index: 1; }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .footer-tagline {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-200);
+    }
+    .footer-right {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.55rem;
+    }
+    .footer-link {
+      text-decoration: none;
+      font-size: 0.88rem;
+      color: var(--slate-400);
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .footer-link:hover { color: var(--blue-200); }
+    .footer-bottom {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .footer-bottom span {
+      font-size: 0.72rem;
+      color: var(--slate-600);
+      letter-spacing: 0.05em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .contact-info  { opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
+    .contact-form  { opacity: 0; animation: fadeUp 0.6s 0.22s forwards; }
+
+    @media (max-width: 900px) {
+      .nav-inner { padding: 0 2rem; }
+      .page-header { padding: 7rem 2rem 3rem; }
+      .contact-body { grid-template-columns: 1fr; gap: 3rem; padding: 0 2rem 4rem; }
+      footer { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; }
+      .footer-right { align-items: flex-start; }
+      .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
+    }
+    @media (max-width: 540px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <p class="page-eyebrow">Get In Touch</p>
+    <h1 class="page-title">Contact</h1>
+    <p class="page-sub">Whether you want to collaborate, have a question, or just want to say hello — I'd love to hear from you.</p>
+  </div>
+</div>
+
+<div class="contact-body">
+
+  <!-- LEFT: Contact info -->
+  <div class="contact-info">
+    <p class="contact-info-label">Reach me directly</p>
+
+    <div class="contact-item">
+      <p class="contact-item-type">Email</p>
+      <a href="mailto:zeely3@gmail.com" class="contact-item-value">zeely3@gmail.com</a>
+    </div>
+
+    <div class="contact-item">
+      <p class="contact-item-type">Phone</p>
+      <a href="tel:3099894753" class="contact-item-value">(309) 989-4753</a>
+    </div>
+
+    <div class="contact-item">
+      <p class="contact-item-type">LinkedIn</p>
+      <a href="https://linkedin.com/in/zaneely" target="_blank" class="contact-item-value">linkedin.com/in/zaneely</a>
+    </div>
+
+    <div class="contact-item">
+      <p class="contact-item-type">Location</p>
+      <span class="contact-item-value">Aurora, Illinois</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="contact-form">
+    <!--
+      To make this form send email, connect it to a service like Formspree:
+        1. Sign up at formspree.io
+        2. Create a form and copy your endpoint URL
+        3. Replace the action attribute below with your endpoint
+      Example: action="https://formspree.io/f/your-id"
+    -->
+    <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="name">Name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="subject">Subject</label>
+        <input class="form-input" type="text" id="subject" name="subject" placeholder="What's this about?">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell me what's on your mind…" required></textarea>
+      </div>
+
+      <div class="form-footer">
+        <p class="form-note">I'll get back to you as soon as I can.</p>
+        <button type="submit" class="btn-submit">Send Message</button>
+      </div>
+    </form>
+
+    <div class="form-success" id="form-success">
+      <p class="success-title">Message sent.</p>
+      <p>Thanks for reaching out — I'll be in touch soon.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-name">Zane Ely</div>
+    <div class="footer-tagline">Marketing & Graphic Design</div>
+  </div>
+  <div class="footer-right">
+    <a href="mailto:zeely3@gmail.com" class="footer-link">zeely3@gmail.com</a>
+    <a href="tel:3099894753" class="footer-link">(309) 989-4753</a>
+    <a href="https://linkedin.com/in/zaneely" target="_blank" class="footer-link">LinkedIn</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Zane Ely</span>
+  <span>Aurora University</span>
+</div>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('form-success');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    const name    = form.name.value.trim();
+    const email   = form.email.value.trim();
+    const message = form.message.value.trim();
+    if (!name || !email || !message) return;
+
+    const btn = form.querySelector('.btn-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+        alert('Something went wrong. Please email me directly at zeely3@gmail.com.');
+      }
+    } catch {
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      alert('Something went wrong. Please email me directly at zeely3@gmail.com.');
+    }
+  });
+</script>
+
+</body>
+</html>

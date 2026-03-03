@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Zane Ely</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white:     #f7f8fc;
+      --blue-100:  #d6dffa;
+      --blue-200:  #a8baf5;
+      --blue-400:  #4a72e8;
+      --blue-500:  #2f57d4;
+      --slate-200: #c9d0e8;
+      --slate-400: #7b87ab;
+      --slate-600: #3d4a6b;
+      --black:     #0d1120;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--slate-600);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(247,248,252,0.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--blue-100);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: center;
+      padding: 0 4rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.74rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      padding: 1.2rem 0 1rem;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      display: block;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--blue-400); border-bottom-color: var(--blue-400); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 9rem 4rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute;
+      top: -80px; right: -120px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #bfcdf8 0%, #dce6fc 40%, transparent 72%);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .page-header-inner { position: relative; z-index: 1; }
+    .page-eyebrow {
+      font-size: 0.73rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.8rem;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+    .page-sub {
+      font-size: 1rem;
+      color: var(--slate-400);
+      max-width: 500px;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      padding: 0 4rem 2.5rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--slate-200);
+      color: var(--slate-400);
+      padding: 0.45rem 1.1rem;
+      border-radius: 2px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--blue-400); color: var(--blue-400); }
+    .filter-btn.active { background: var(--blue-500); border-color: var(--blue-500); color: #fff; }
+
+    /* GALLERY */
+    .gallery {
+      padding: 0 4rem 6rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .gallery-item { cursor: pointer; }
+    .gallery-thumb {
+      aspect-ratio: 4 / 3;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .gallery-thumb-inner {
+      width: 100%; height: 100%;
+      transition: transform 0.4s;
+    }
+    .gallery-item:hover .gallery-thumb {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(47,87,212,0.15);
+    }
+    .gallery-item:hover .gallery-thumb-inner { transform: scale(1.04); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,17,32,0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { background: rgba(13,17,32,0.38); }
+    .gallery-overlay-text {
+      color: #fff;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay-text { opacity: 1; transform: translateY(0); }
+    .gallery-info { padding: 0.9rem 0 0; }
+    .gallery-cat {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+    .gallery-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--black);
+      font-weight: 400;
+    }
+    .gallery-item.hidden { display: none; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(13,17,32,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-panel {
+      background: var(--white);
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 2px;
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: transform 0.3s;
+    }
+    .lightbox.open .lightbox-panel { transform: translateY(0); }
+    .lightbox-visual { width: 55%; flex-shrink: 0; }
+    .lightbox-visual-inner { width: 100%; height: 100%; min-height: 360px; }
+    .lightbox-details {
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .lightbox-cat {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .lightbox-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.9rem;
+      color: var(--black);
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      font-weight: 400;
+    }
+    .lightbox-desc {
+      font-size: 0.92rem;
+      color: var(--slate-600);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .lightbox-placeholder-note {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--slate-200);
+      border-top: 1px solid var(--blue-100);
+      padding-top: 1rem;
+      text-transform: uppercase;
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 1.5rem; right: 1.5rem;
+      background: rgba(247,248,252,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 2.5rem; height: 2.5rem;
+      border-radius: 2px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      line-height: 1;
+      z-index: 201;
+    }
+    .lightbox-close:hover { background: rgba(247,248,252,0.25); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 3.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(47,87,212,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .footer-left { position: relative; z-index: 1; }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .footer-tagline {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-200);
+    }
+    .footer-right {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.55rem;
+    }
+    .footer-link {
+      text-decoration: none;
+      font-size: 0.88rem;
+      color: var(--slate-400);
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .footer-link:hover { color: var(--blue-200); }
+    .footer-bottom {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .footer-bottom span {
+      font-size: 0.72rem;
+      color: var(--slate-600);
+      letter-spacing: 0.05em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .gallery-item {
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+    }
+    .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+    .gallery-item:nth-child(2) { animation-delay: 0.10s; }
+    .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+    .gallery-item:nth-child(4) { animation-delay: 0.20s; }
+    .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+    .gallery-item:nth-child(6) { animation-delay: 0.30s; }
+    .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+    .gallery-item:nth-child(8) { animation-delay: 0.40s; }
+    .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+
+    @media (max-width: 900px) {
+      .nav-inner { padding: 0 2rem; }
+      .page-header { padding: 7rem 2rem 2.5rem; }
+      .filter-bar { padding: 0 2rem 2rem; }
+      .gallery { grid-template-columns: repeat(2, 1fr); padding: 0 2rem 4rem; gap: 1rem; }
+      .lightbox-panel { flex-direction: column; max-height: 88vh; overflow-y: auto; }
+      .lightbox-visual { width: 100%; }
+      .lightbox-visual-inner { min-height: 220px; }
+      .lightbox-details { padding: 2rem; }
+      footer { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; }
+      .footer-right { align-items: flex-start; }
+      .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
+    }
+    @media (max-width: 540px) {
+      .gallery { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <p class="page-eyebrow">Selected Work</p>
+    <h1 class="page-title">Portfolio</h1>
+    <p class="page-sub">Branding, web, print, and campaign work. Click any piece to learn more.</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="branding">Branding</button>
+  <button class="filter-btn" data-filter="web">Web Design</button>
+  <button class="filter-btn" data-filter="print">Print</button>
+  <button class="filter-btn" data-filter="campaign">Campaign</button>
+  <button class="filter-btn" data-filter="digital">Digital</button>
+</div>
+
+<div class="gallery" id="gallery">
+
+  <div class="gallery-item"
+    data-category="branding"
+    data-cat="Branding"
+    data-title="Aurora Brewing Co."
+    data-desc="Full brand identity system for a concept craft brewery — logo, color palette, type system, and packaging design.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #2f57d4 0%, #a8baf5 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Branding</span>
+      <h3 class="gallery-title">Aurora Brewing Co.</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="web"
+    data-cat="Web Design"
+    data-title="Momentum Fitness"
+    data-desc="Website design and prototype for a boutique fitness studio — clean layout, bold typography, and a streamlined class booking flow.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #0d1120 0%, #2f57d4 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Web Design</span>
+      <h3 class="gallery-title">Momentum Fitness</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="print"
+    data-cat="Print"
+    data-title="Senior Showcase Poster"
+    data-desc="Event poster series for Aurora University's annual senior design showcase — typographic hierarchy and a structured editorial grid.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #d6dffa 0%, #4a72e8 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">Senior Showcase Poster</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="campaign"
+    data-cat="Campaign"
+    data-title="Student Union Campaign"
+    data-desc="Integrated marketing campaign for Aurora University's Student Union — strategy, visual identity, and multi-channel execution across print and digital.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #3d4a6b 0%, #4a72e8 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Campaign</span>
+      <h3 class="gallery-title">Student Union Campaign</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="print"
+    data-cat="Print"
+    data-title="Type Study No. 3"
+    data-desc="Editorial typographic composition exploring contrast, scale, and negative space — produced as a limited-edition 18×24 risograph poster.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #0d1120 0%, #3d4a6b 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">Type Study No. 3</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="branding"
+    data-cat="Branding"
+    data-title="Northside Coffee"
+    data-desc="Brand identity for a neighborhood coffee shop — wordmark, cup and bag packaging, and an in-store signage system.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #a8baf5 0%, #c9d0e8 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Branding</span>
+      <h3 class="gallery-title">Northside Coffee</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="digital"
+    data-cat="Digital"
+    data-title="Social Media Kit"
+    data-desc="Instagram and LinkedIn content system for a student organization — templates, color guidelines, and copy frameworks built for consistent weekly publishing.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #4a72e8 0%, #d6dffa 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Digital</span>
+      <h3 class="gallery-title">Social Media Kit</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="campaign"
+    data-cat="Campaign"
+    data-title="Enrollment Drive"
+    data-desc="Awareness and conversion campaign targeting prospective transfer students — digital ads, landing page copy, and direct mail pieces.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #3d4a6b 0%, #a8baf5 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Campaign</span>
+      <h3 class="gallery-title">Enrollment Drive</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="web"
+    data-cat="Web Design"
+    data-title="Architecture Studio Site"
+    data-desc="Minimal portfolio website concept for a local architecture firm — editorial grid, full-bleed imagery, and project case study layouts.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #2f57d4 0%, #0d1120 100%);"></div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Web Design</span>
+      <h3 class="gallery-title">Architecture Studio Site</h3>
+    </div>
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close">&#215;</button>
+  <div class="lightbox-panel">
+    <div class="lightbox-visual">
+      <div class="lightbox-visual-inner" id="lb-visual"></div>
+    </div>
+    <div class="lightbox-details">
+      <span class="lightbox-cat" id="lb-cat"></span>
+      <h2 class="lightbox-title" id="lb-title"></h2>
+      <p class="lightbox-desc" id="lb-desc"></p>
+      <p class="lightbox-placeholder-note">Placeholder — real work coming soon</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-name">Zane Ely</div>
+    <div class="footer-tagline">Marketing & Graphic Design</div>
+  </div>
+  <div class="footer-right">
+    <a href="mailto:zeely3@gmail.com" class="footer-link">zeely3@gmail.com</a>
+    <a href="tel:3099894753" class="footer-link">(309) 989-4753</a>
+    <a href="https://linkedin.com/in/zaneely" target="_blank" class="footer-link">LinkedIn</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Zane Ely</span>
+  <span>Aurora University</span>
+</div>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lbVisual = document.getElementById('lb-visual');
+  const lbCat    = document.getElementById('lb-cat');
+  const lbTitle  = document.getElementById('lb-title');
+  const lbDesc   = document.getElementById('lb-desc');
+
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      lbVisual.style.background = item.querySelector('.gallery-thumb-inner').style.background;
+      lbCat.textContent   = item.dataset.cat;
+      lbTitle.textContent = item.dataset.title;
+      lbDesc.textContent  = item.dataset.desc;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        const show = filter === 'all' || item.dataset.category === filter;
+        item.classList.toggle('hidden', !show);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Resume — Zane Ely</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --white:     #f7f8fc;
+      --blue-100:  #d6dffa;
+      --blue-200:  #a8baf5;
+      --blue-400:  #4a72e8;
+      --blue-500:  #2f57d4;
+      --slate-200: #c9d0e8;
+      --slate-400: #7b87ab;
+      --slate-600: #3d4a6b;
+      --black:     #0d1120;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--slate-600);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(247,248,252,0.93);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--blue-100);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: center;
+      padding: 0 4rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.74rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      padding: 1.2rem 0 1rem;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+      display: block;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--blue-400); border-bottom-color: var(--blue-400); }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 7rem 4rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header-bg {
+      position: absolute;
+      top: -80px; right: -120px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #bfcdf8 0%, #dce6fc 40%, transparent 72%);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .page-header-inner {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--blue-100);
+    }
+    .page-header-text {}
+    .page-eyebrow {
+      font-size: 0.73rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.6rem;
+    }
+    .page-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1;
+      color: var(--black);
+    }
+    .btn-download {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--blue-500);
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .btn-download:hover { background: var(--blue-400); transform: translateY(-2px); }
+    .btn-download svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* PDF VIEWER */
+    .resume-container {
+      padding: 2.5rem 4rem 6rem;
+    }
+    .resume-embed-wrapper {
+      width: 100%;
+      border: 1px solid var(--blue-100);
+      border-radius: 2px;
+      overflow: hidden;
+      background: #e8e8e8;
+      /* tall enough to show a full A4 page */
+      height: calc(100vh - 14rem);
+      min-height: 700px;
+      position: relative;
+    }
+    .resume-embed-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    /* Shown when PDF hasn't been uploaded yet */
+    .resume-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      background: #f0f2f8;
+    }
+    .resume-placeholder-icon {
+      width: 64px; height: 64px;
+      border: 2px solid var(--blue-100);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .resume-placeholder-icon svg {
+      width: 28px; height: 28px;
+      fill: var(--blue-200);
+    }
+    .resume-placeholder p {
+      font-size: 0.85rem;
+      color: var(--slate-400);
+      letter-spacing: 0.05em;
+      text-align: center;
+      max-width: 280px;
+    }
+    .resume-placeholder strong {
+      font-weight: 500;
+      color: var(--slate-600);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 3.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: -150px; right: -150px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(47,87,212,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .footer-left { position: relative; z-index: 1; }
+    .footer-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .footer-tagline {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-200);
+    }
+    .footer-right {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.55rem;
+    }
+    .footer-link {
+      text-decoration: none;
+      font-size: 0.88rem;
+      color: var(--slate-400);
+      transition: color 0.2s;
+      letter-spacing: 0.02em;
+    }
+    .footer-link:hover { color: var(--blue-200); }
+    .footer-bottom {
+      background: var(--black);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 1rem 4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    .footer-bottom span {
+      font-size: 0.72rem;
+      color: var(--slate-600);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 900px) {
+      .nav-inner { padding: 0 2rem; }
+      .page-header { padding: 6rem 2rem 0; }
+      .page-header-inner { flex-direction: column; align-items: flex-start; }
+      .resume-container { padding: 2rem 2rem 4rem; }
+      .resume-embed-wrapper { height: 70vh; min-height: 500px; }
+      footer { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; }
+      .footer-right { align-items: flex-start; }
+      .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="resume.html" class="active">Resume</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-header-inner">
+    <div class="page-header-text">
+      <p class="page-eyebrow">Zane Ely</p>
+      <h1 class="page-title">Resume</h1>
+    </div>
+    <!-- Download link — update href to match the actual filename if different -->
+    <a href="resume.pdf" download class="btn-download">
+      <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1a.75.75 0 0 1 .75.75v7.19l2.47-2.47a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L3.72 7.53a.75.75 0 0 1 1.06-1.06L7.25 8.94V1.75A.75.75 0 0 1 8 1ZM2 13.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"/>
+      </svg>
+      Download PDF
+    </a>
+  </div>
+</div>
+
+<div class="resume-container">
+  <div class="resume-embed-wrapper">
+    <!--
+      Place your resume PDF at the root of this project as "resume.pdf"
+      The viewer will display it automatically once the file is present.
+    -->
+    <iframe
+      src="resume.pdf"
+      title="Zane Ely Resume"
+      type="application/pdf">
+    </iframe>
+    <!-- Fallback shown in browsers that don't support PDF embedding -->
+    <noscript>
+      <div class="resume-placeholder">
+        <div class="resume-placeholder-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+          </svg>
+        </div>
+        <p><strong>PDF not available</strong>Your browser doesn't support inline PDF viewing. Use the Download button above.</p>
+      </div>
+    </noscript>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <div class="footer-name">Zane Ely</div>
+    <div class="footer-tagline">Marketing & Graphic Design</div>
+  </div>
+  <div class="footer-right">
+    <a href="mailto:zeely3@gmail.com" class="footer-link">zeely3@gmail.com</a>
+    <a href="tel:3099894753" class="footer-link">(309) 989-4753</a>
+    <a href="https://linkedin.com/in/zaneely" target="_blank" class="footer-link">LinkedIn</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Zane Ely</span>
+  <span>Aurora University</span>
+</div>
+
+<script>
+  // If the iframe fails to load the PDF, show the placeholder overlay
+  const iframe = document.querySelector('.resume-embed-wrapper iframe');
+  const wrapper = document.querySelector('.resume-embed-wrapper');
+
+  function showPlaceholder() {
+    iframe.style.display = 'none';
+    const ph = document.createElement('div');
+    ph.className = 'resume-placeholder';
+    ph.innerHTML = `
+      <div class="resume-placeholder-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+      </div>
+      <p>
+        <strong>Resume PDF not uploaded yet</strong>
+        Add <code style="font-size:0.8em;background:#e0e5f5;padding:0.1em 0.4em;border-radius:2px;">resume.pdf</code> to the project root to display it here.
+      </p>`;
+    wrapper.appendChild(ph);
+  }
+
+  iframe.addEventListener('error', showPlaceholder);
+
+  // Detect blank iframe (PDF missing) after a short delay
+  setTimeout(() => {
+    try {
+      if (!iframe.contentDocument || iframe.contentDocument.body?.innerHTML === '') {
+        showPlaceholder();
+      }
+    } catch (e) {
+      // cross-origin — PDF is likely loading fine, do nothing
+    }
+  }, 1500);
+</script>
+
+</body>
+</html>
