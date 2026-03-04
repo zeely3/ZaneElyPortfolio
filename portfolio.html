@@ -462,6 +462,9 @@
     .btn-view-site:hover { background: var(--blue-400); transform: translateY(-2px); }
     #lb-link { margin-top: 0.5rem; }
 
+    /* Mobile category back button — hidden on desktop */
+    .mob-back { display: none; }
+
     /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -555,8 +558,45 @@
       .nav-links a.active { border-bottom-color: var(--blue-100); }
       .nav-links li:last-child a { border-bottom: none; }
       .page-header { padding: 5rem 1.5rem 2rem; }
-      .filter-bar { padding: 0 1.5rem 1.5rem; }
-      .gallery { padding: 0 1.5rem 3rem; }
+      /* Filter bar becomes a 2-column card grid */
+      .filter-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        padding: 0 1.5rem 1.5rem;
+      }
+      .filter-btn {
+        min-height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.7rem;
+        padding: 1rem 0.75rem;
+        border-radius: 4px;
+        word-break: break-word;
+      }
+      .filter-btn[data-filter="all"] {
+        grid-column: 1 / -1;
+        min-height: 48px;
+      }
+      /* Gallery hidden until a category is selected */
+      .gallery { display: none; padding: 0 1.5rem 3rem; }
+      .gallery.mob-open { display: grid; }
+      /* No fade animation needed — items visible immediately on tap */
+      .gallery-item { animation: none; opacity: 1; }
+      /* Back button */
+      .mob-back.visible { display: block; padding: 0 1.5rem 0.25rem; }
+      .mob-back-btn {
+        background: none; border: none;
+        color: var(--blue-400);
+        font-family: 'Lora', serif;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+        padding: 0.5rem 0;
+      }
     }
   </style>
 </head>
@@ -600,6 +640,10 @@
   <button class="filter-btn" data-filter="photography">Photography</button>
   <button class="filter-btn" data-filter="web">Web</button>
   <button class="filter-btn" data-filter="social">Social Media</button>
+</div>
+
+<div class="mob-back" id="mob-back">
+  <button class="mob-back-btn" id="mob-back-btn">← All Categories</button>
 </div>
 
 <div class="gallery" id="gallery">
@@ -1028,6 +1072,39 @@
       h.classList.remove('open');
       h.setAttribute('aria-expanded', 'false');
     });
+  });
+}());
+</script>
+
+<script>
+// Mobile category card behaviour — gallery hidden until category is tapped
+(function() {
+  if (window.innerWidth > 768) return;
+  var gallery  = document.getElementById('gallery');
+  var mobBack  = document.getElementById('mob-back');
+  var backBtn  = document.getElementById('mob-back-btn');
+  var filters  = document.querySelectorAll('.filter-btn');
+  var items    = document.querySelectorAll('.gallery-item');
+
+  filters.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      gallery.classList.add('mob-open');
+      if (btn.dataset.filter === 'all') {
+        mobBack.classList.remove('visible');
+      } else {
+        mobBack.classList.add('visible');
+      }
+    });
+  });
+
+  backBtn.addEventListener('click', function() {
+    gallery.classList.remove('mob-open');
+    mobBack.classList.remove('visible');
+    // Reset to "All"
+    filters.forEach(function(b) { b.classList.remove('active'); });
+    filters[0].classList.add('active');
+    items.forEach(function(item) { item.classList.remove('hidden'); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }());
 </script>
