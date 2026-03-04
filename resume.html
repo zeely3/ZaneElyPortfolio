@@ -298,13 +298,66 @@
       .footer-right { align-items: flex-start; }
       .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
     }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 22px; height: 16px;
+      background: none; border: none; cursor: pointer; padding: 0;
+      flex-shrink: 0;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 2px;
+      background: var(--slate-400); border-radius: 1px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-inner {
+        padding: 1rem 1.2rem;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .player-bar { position: static; }
+      .player-ticker-wrap { width: 130px; }
+      .nav-links {
+        order: 3; width: 100%;
+        flex-direction: column; gap: 0;
+        max-height: 0; overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .nav-links.open {
+        max-height: 280px;
+        border-top: 1px solid var(--blue-100);
+      }
+      .nav-links a {
+        padding: 0.9rem 0;
+        border-bottom: 1px solid var(--blue-100);
+      }
+      .nav-links a:hover,
+      .nav-links a.active { border-bottom-color: var(--blue-100); }
+      .nav-links li:last-child a { border-bottom: none; }
+      .page-header { padding: 4.5rem 1.5rem 0; }
+      .resume-container { padding: 1.5rem 1.5rem 3rem; }
+      .resume-embed-wrapper { height: 65vh; min-height: 400px; }
+    }
   </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
-    <ul class="nav-links">
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
       <li><a href="resume.html" class="active">Resume</a></li>
@@ -454,5 +507,23 @@
 }());
 </script>
 
+<script>
+(function() {
+  var h = document.getElementById('hamburger');
+  var n = document.getElementById('nav-links');
+  h.addEventListener('click', function() {
+    var open = n.classList.toggle('open');
+    h.classList.toggle('open', open);
+    h.setAttribute('aria-expanded', String(open));
+  });
+  n.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      n.classList.remove('open');
+      h.classList.remove('open');
+      h.setAttribute('aria-expanded', 'false');
+    });
+  });
+}());
+</script>
 </body>
 </html>
