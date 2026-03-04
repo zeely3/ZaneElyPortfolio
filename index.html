@@ -44,7 +44,54 @@
     .nav-inner {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 0 4rem;
+      position: relative;
+    }
+
+    /* ── MUSIC PLAYER ── */
+    .player-bar {
+      position: absolute;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .player-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--slate-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+      border-radius: 2px;
+      transition: color 0.2s;
+      flex-shrink: 0;
+      line-height: 0;
+    }
+    .player-btn:hover { color: var(--blue-400); }
+    .player-btn svg { width: 14px; height: 14px; fill: currentColor; }
+    .player-ticker-wrap {
+      width: 200px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+      mask-image:         linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    }
+    .player-ticker {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 0.63rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      animation: tickerScroll 22s linear infinite;
+      will-change: transform;
+    }
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
     .nav-links {
       display: flex;
@@ -83,6 +130,13 @@
       40%  { border-radius: 44% 56% 48% 52% / 56% 42% 58% 44%; }
       60%  { border-radius: 52% 48% 62% 38% / 44% 52% 48% 56%; }
       80%  { border-radius: 46% 54% 42% 58% / 58% 46% 54% 42%; }
+      100% { border-radius: 50%; }
+    }
+    @keyframes blobWarp2 {
+      0%   { border-radius: 50%; }
+      30%  { border-radius: 62% 38% 46% 54% / 54% 44% 56% 46%; }
+      55%  { border-radius: 42% 58% 60% 40% / 48% 62% 38% 52%; }
+      75%  { border-radius: 56% 44% 38% 62% / 62% 38% 58% 42%; }
       100% { border-radius: 50%; }
     }
 
@@ -131,6 +185,43 @@
       animation:
         blobWarp 13s ease-in-out 4s infinite,
         blobFloat 30s ease-in-out -12s infinite;
+    }
+    /* Extra blobs — varied sizes, speeds, warp shapes */
+    .hero-blob-cl {
+      position: absolute;
+      bottom: -560px; left: 22%;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 40%, #c8d8fb 0%, #e2eafd 45%, transparent 72%);
+      opacity: 0.18;
+      pointer-events: none;
+      animation:
+        blobWarp 22s ease-in-out 8s infinite reverse,
+        blobFloat 58s ease-in-out -40s infinite;
+    }
+    .hero-blob-tr2 {
+      position: absolute;
+      bottom: -380px; right: 60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 55%, #b8ccf8 0%, #d8e5fc 48%, transparent 72%);
+      opacity: 0.16;
+      pointer-events: none;
+      animation:
+        blobWarp2 19s ease-in-out 5s infinite,
+        blobFloat 44s ease-in-out -30s infinite;
+    }
+    .hero-blob-sm {
+      position: absolute;
+      bottom: -200px; left: 42%;
+      width: 170px; height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 45% 45%, #a8baf5 0%, #cdd9fb 50%, transparent 72%);
+      opacity: 0.15;
+      pointer-events: none;
+      animation:
+        blobWarp2 8s ease-in-out 2s infinite reverse,
+        blobFloat 22s ease-in-out -5s infinite;
     }
 
     .hero-bg-line {
@@ -306,6 +397,14 @@
       <li><a href="resume.html">Resume</a></li>
       <li><a href="contact.html">About Me</a></li>
     </ul>
+    <div class="player-bar">
+      <button class="player-btn" id="player-btn" aria-label="Play">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5l11 5.5-11 5.5z"/></svg>
+      </button>
+      <div class="player-ticker-wrap">
+        <span class="player-ticker" id="player-ticker"></span>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -313,6 +412,9 @@
   <div class="hero-bg-blob"></div>
   <div class="hero-blob-bl"></div>
   <div class="hero-blob-mid"></div>
+  <div class="hero-blob-cl"></div>
+  <div class="hero-blob-tr2"></div>
+  <div class="hero-blob-sm"></div>
   <div class="hero-bg-line"></div>
   <div class="hero-content">
     <h1 class="hero-name">Zane Ely</h1>
@@ -339,5 +441,82 @@
   <span>© 2026 Zane Ely</span>
 </div>
 
+<script>
+(function () {
+  const playlist = [
+    { file: 'Website Music/Tokyo Reggie 4.mp3',          title: 'tokyo reggie',            artist: 'masayoshi takanaka' },
+    { file: 'Website Music/Brief Encounter Human.mp3',    title: 'human',                   artist: 'a brief encounter'  },
+    { file: 'Website Music/Masayoshi Takanaka - [01] Oh! Tengo Suerte (All of Me 1979) 4.mp3', title: 'oh! tengo suerte', artist: 'masayoshi takanaka' },
+    { file: 'Website Music/The Silence That You Keep.mp3', title: 'the silence that you keep', artist: 'milton wright'  },
+    { file: 'Website Music/Masayoshi Takanaka - [08] Brasilian Skies (All of Me 1979) 4.mp3',  title: 'brasilian skies',  artist: 'masayoshi takanaka' },
+    { file: 'Website Music/The Blackbyrds - Mysterious Vibes (Official Visualizer).mp3', title: 'mysterious vibes', artist: 'the blackbyrds' },
+    { file: 'Website Music/Cool Out.mp3',                 title: 'cool out',                artist: 'leroy hutson'       },
+  ];
+
+  let idx = 0;
+  let isPlaying = false;
+  const audio  = new Audio();
+  audio.volume = 0.5;
+  const btn    = document.getElementById('player-btn');
+  const ticker = document.getElementById('player-ticker');
+
+  const SVG_PLAY  = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5l11 5.5-11 5.5z"/></svg>';
+  const SVG_PAUSE = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M4 2h2.5v12H4zm5.5 0H12v12H9.5z"/></svg>';
+
+  function encodePath(p) {
+    return p.split('/').map(encodeURIComponent).join('/');
+  }
+
+  function setTicker(track) {
+    const text = track.title + '\u00a0\u00a0\u00b7\u00a0\u00a0' + track.artist;
+    const gap  = '\u00a0'.repeat(10);
+    ticker.textContent = text + gap + text + gap;
+    ticker.style.animation = 'none';
+    void ticker.offsetWidth;
+    ticker.style.animation = '';
+  }
+
+  function setBtn(playing) {
+    btn.innerHTML = playing ? SVG_PAUSE : SVG_PLAY;
+    btn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+  }
+
+  function loadTrack(i) {
+    idx = ((i % playlist.length) + playlist.length) % playlist.length;
+    audio.src = encodePath(playlist[idx].file);
+    setTicker(playlist[idx]);
+  }
+
+  function tryPlay() {
+    audio.play().then(() => { isPlaying = true;  setBtn(true);  })
+                .catch(() => { isPlaying = false; setBtn(false); });
+  }
+
+  audio.addEventListener('ended', () => { loadTrack(idx + 1); tryPlay(); });
+
+  btn.addEventListener('click', () => {
+    if (isPlaying) {
+      audio.pause(); isPlaying = false; setBtn(false);
+    } else {
+      if (!audio.src) loadTrack(0);
+      tryPlay();
+    }
+  });
+
+  // Init
+  loadTrack(0);
+  setBtn(false);
+  setTimeout(tryPlay, 150);
+
+  // Unlock autoplay on first user gesture if blocked
+  function unlock() {
+    if (!isPlaying) tryPlay();
+    document.removeEventListener('click',      unlock);
+    document.removeEventListener('touchstart', unlock);
+  }
+  document.addEventListener('click',      unlock);
+  document.addEventListener('touchstart', unlock);
+}());
+</script>
 </body>
 </html>

@@ -44,7 +44,54 @@
     .nav-inner {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 0 4rem;
+      position: relative;
+    }
+
+    /* ── MUSIC PLAYER ── */
+    .player-bar {
+      position: absolute;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .player-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--slate-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25rem;
+      border-radius: 2px;
+      transition: color 0.2s;
+      flex-shrink: 0;
+      line-height: 0;
+    }
+    .player-btn:hover { color: var(--blue-400); }
+    .player-btn svg { width: 14px; height: 14px; fill: currentColor; }
+    .player-ticker-wrap {
+      width: 200px;
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+      mask-image:         linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    }
+    .player-ticker {
+      display: inline-block;
+      white-space: nowrap;
+      font-size: 0.63rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--slate-400);
+      animation: tickerScroll 22s linear infinite;
+      will-change: transform;
+    }
+    @keyframes tickerScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
     }
     .nav-links {
       display: flex;
@@ -263,6 +310,14 @@
       <li><a href="resume.html" class="active">Resume</a></li>
       <li><a href="contact.html">About Me</a></li>
     </ul>
+    <div class="player-bar">
+      <button class="player-btn" id="player-btn" aria-label="Play">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5l11 5.5-11 5.5z"/></svg>
+      </button>
+      <div class="player-ticker-wrap">
+        <span class="player-ticker" id="player-ticker"></span>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -355,6 +410,43 @@
       // cross-origin — PDF is likely loading fine, do nothing
     }
   }, 1500);
+</script>
+
+<script>
+(function () {
+  const playlist = [
+    { file: 'Website Music/Tokyo Reggie 4.mp3',          title: 'tokyo reggie',            artist: 'masayoshi takanaka' },
+    { file: 'Website Music/Brief Encounter Human.mp3',    title: 'human',                   artist: 'a brief encounter'  },
+    { file: 'Website Music/Masayoshi Takanaka - [01] Oh! Tengo Suerte (All of Me 1979) 4.mp3', title: 'oh! tengo suerte', artist: 'masayoshi takanaka' },
+    { file: 'Website Music/The Silence That You Keep.mp3', title: 'the silence that you keep', artist: 'milton wright'  },
+    { file: 'Website Music/Masayoshi Takanaka - [08] Brasilian Skies (All of Me 1979) 4.mp3',  title: 'brasilian skies',  artist: 'masayoshi takanaka' },
+    { file: 'Website Music/The Blackbyrds - Mysterious Vibes (Official Visualizer).mp3', title: 'mysterious vibes', artist: 'the blackbyrds' },
+    { file: 'Website Music/Cool Out.mp3',                 title: 'cool out',                artist: 'leroy hutson'       },
+  ];
+  let idx = 0, isPlaying = false;
+  const audio = new Audio(); audio.volume = 0.5;
+  const btn    = document.getElementById('player-btn');
+  const ticker = document.getElementById('player-ticker');
+  const SVG_PLAY  = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5l11 5.5-11 5.5z"/></svg>';
+  const SVG_PAUSE = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M4 2h2.5v12H4zm5.5 0H12v12H9.5z"/></svg>';
+  function encodePath(p) { return p.split('/').map(encodeURIComponent).join('/'); }
+  function setTicker(t) {
+    const text = t.title + '\u00a0\u00a0\u00b7\u00a0\u00a0' + t.artist, gap = '\u00a0'.repeat(10);
+    ticker.textContent = text + gap + text + gap;
+    ticker.style.animation = 'none'; void ticker.offsetWidth; ticker.style.animation = '';
+  }
+  function setBtn(p) { btn.innerHTML = p ? SVG_PAUSE : SVG_PLAY; btn.setAttribute('aria-label', p ? 'Pause' : 'Play'); }
+  function loadTrack(i) { idx = ((i % playlist.length) + playlist.length) % playlist.length; audio.src = encodePath(playlist[idx].file); setTicker(playlist[idx]); }
+  function tryPlay() { audio.play().then(() => { isPlaying = true; setBtn(true); }).catch(() => { isPlaying = false; setBtn(false); }); }
+  audio.addEventListener('ended', () => { loadTrack(idx + 1); tryPlay(); });
+  btn.addEventListener('click', () => {
+    if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); }
+    else { if (!audio.src) loadTrack(0); tryPlay(); }
+  });
+  loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
+  function unlock() { if (!isPlaying) tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
+  document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock);
+}());
 </script>
 
 </body>
