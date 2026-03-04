@@ -139,15 +139,43 @@
       position: relative;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .gallery-thumb-inner {
-      width: 100%; height: 100%;
-      transition: transform 0.4s;
-    }
     .gallery-item:hover .gallery-thumb {
       transform: translateY(-4px);
       box-shadow: 0 16px 40px rgba(47,87,212,0.15);
     }
+
+    /* Image thumbnails */
+    .gallery-thumb-inner {
+      width: 100%; height: 100%;
+      transition: transform 0.4s;
+    }
     .gallery-item:hover .gallery-thumb-inner { transform: scale(1.04); }
+    .gallery-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* PDF thumbnails */
+    .gallery-thumb-pdf {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .pdf-thumb-icon {
+      width: 36px; height: 36px;
+      fill: rgba(255,255,255,0.7);
+    }
+    .pdf-thumb-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* Hover overlay (shared) */
     .gallery-overlay {
       position: absolute;
       inset: 0;
@@ -168,6 +196,7 @@
       transition: opacity 0.3s, transform 0.3s;
     }
     .gallery-item:hover .gallery-overlay-text { opacity: 1; transform: translateY(0); }
+
     .gallery-info { padding: 0.9rem 0 0; }
     .gallery-cat {
       font-size: 0.68rem;
@@ -190,7 +219,7 @@
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(13,17,32,0.88);
+      background: rgba(13,17,32,0.9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -203,7 +232,7 @@
     .lightbox-panel {
       background: var(--white);
       display: flex;
-      max-width: 900px;
+      max-width: 960px;
       width: 100%;
       max-height: 90vh;
       border-radius: 2px;
@@ -212,8 +241,32 @@
       transition: transform 0.3s;
     }
     .lightbox.open .lightbox-panel { transform: translateY(0); }
-    .lightbox-visual { width: 55%; flex-shrink: 0; }
-    .lightbox-visual-inner { width: 100%; height: 100%; min-height: 360px; }
+
+    /* Visual area — holds either <img> or <iframe> */
+    .lightbox-visual {
+      width: 58%;
+      flex-shrink: 0;
+      background: #e8eaf4;
+      position: relative;
+    }
+    #lb-visual {
+      width: 100%; height: 100%;
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #lb-visual img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+    }
+    #lb-visual iframe {
+      width: 100%; height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Details pane */
     .lightbox-details {
       padding: 3rem;
       display: flex;
@@ -232,26 +285,36 @@
     }
     .lightbox-title {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.9rem;
+      font-size: 1.8rem;
       color: var(--black);
       line-height: 1.15;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       font-weight: 400;
     }
     .lightbox-desc {
       font-size: 0.92rem;
       color: var(--slate-600);
       line-height: 1.7;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
-    .lightbox-placeholder-note {
-      font-size: 0.68rem;
+    .lightbox-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: var(--blue-500);
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.75rem;
       letter-spacing: 0.1em;
-      color: var(--slate-200);
-      border-top: 1px solid var(--blue-100);
-      padding-top: 1rem;
       text-transform: uppercase;
+      transition: background 0.2s;
+      align-self: flex-start;
     }
+    .lightbox-download:hover { background: var(--blue-400); }
+    .lightbox-download svg { width: 13px; height: 13px; fill: currentColor; }
+
     .lightbox-close {
       position: fixed;
       top: 1.5rem; right: 1.5rem;
@@ -266,7 +329,6 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s;
-      line-height: 1;
       z-index: 201;
     }
     .lightbox-close:hover { background: rgba(247,248,252,0.25); }
@@ -341,25 +403,33 @@
       opacity: 0;
       animation: fadeUp 0.5s forwards;
     }
-    .gallery-item:nth-child(1) { animation-delay: 0.05s; }
-    .gallery-item:nth-child(2) { animation-delay: 0.10s; }
-    .gallery-item:nth-child(3) { animation-delay: 0.15s; }
-    .gallery-item:nth-child(4) { animation-delay: 0.20s; }
-    .gallery-item:nth-child(5) { animation-delay: 0.25s; }
-    .gallery-item:nth-child(6) { animation-delay: 0.30s; }
-    .gallery-item:nth-child(7) { animation-delay: 0.35s; }
-    .gallery-item:nth-child(8) { animation-delay: 0.40s; }
-    .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+    .gallery-item:nth-child(1)  { animation-delay: 0.05s; }
+    .gallery-item:nth-child(2)  { animation-delay: 0.10s; }
+    .gallery-item:nth-child(3)  { animation-delay: 0.15s; }
+    .gallery-item:nth-child(4)  { animation-delay: 0.20s; }
+    .gallery-item:nth-child(5)  { animation-delay: 0.25s; }
+    .gallery-item:nth-child(6)  { animation-delay: 0.30s; }
+    .gallery-item:nth-child(7)  { animation-delay: 0.35s; }
+    .gallery-item:nth-child(8)  { animation-delay: 0.40s; }
+    .gallery-item:nth-child(9)  { animation-delay: 0.45s; }
+    .gallery-item:nth-child(10) { animation-delay: 0.50s; }
 
     @media (max-width: 900px) {
       .nav-inner { padding: 0 2rem; }
       .page-header { padding: 7rem 2rem 2.5rem; }
       .filter-bar { padding: 0 2rem 2rem; }
       .gallery { grid-template-columns: repeat(2, 1fr); padding: 0 2rem 4rem; gap: 1rem; }
-      .lightbox-panel { flex-direction: column; max-height: 88vh; overflow-y: auto; }
+      .lightbox { padding: 0; align-items: flex-end; }
+      .lightbox-panel {
+        flex-direction: column;
+        max-height: 94vh;
+        overflow-y: auto;
+        border-radius: 2px 2px 0 0;
+        max-width: 100%;
+      }
       .lightbox-visual { width: 100%; }
-      .lightbox-visual-inner { min-height: 220px; }
-      .lightbox-details { padding: 2rem; }
+      #lb-visual { min-height: 260px; }
+      .lightbox-details { padding: 1.8rem; }
       footer { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; }
       .footer-right { align-items: flex-start; }
       .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
@@ -387,153 +457,227 @@
   <div class="page-header-inner">
     <p class="page-eyebrow">Selected Work</p>
     <h1 class="page-title">Portfolio</h1>
-    <p class="page-sub">Branding, web, print, and campaign work. Click any piece to learn more.</p>
+    <p class="page-sub">Branding, print, and photography work. Click any piece to view it full-size.</p>
   </div>
 </div>
 
 <div class="filter-bar">
   <button class="filter-btn active" data-filter="all">All</button>
   <button class="filter-btn" data-filter="branding">Branding</button>
-  <button class="filter-btn" data-filter="web">Web Design</button>
   <button class="filter-btn" data-filter="print">Print</button>
-  <button class="filter-btn" data-filter="campaign">Campaign</button>
-  <button class="filter-btn" data-filter="digital">Digital</button>
+  <button class="filter-btn" data-filter="photography">Photography</button>
 </div>
 
 <div class="gallery" id="gallery">
 
+  <!-- ── BRANDING ─────────────────────────────────── -->
+
   <div class="gallery-item"
     data-category="branding"
+    data-type="image"
+    data-src="Portfolio%20Pieces/Aurora%20Wrestling.jpg"
     data-cat="Branding"
-    data-title="Aurora Brewing Co."
-    data-desc="Full brand identity system for a concept craft brewery — logo, color palette, type system, and packaging design.">
+    data-title="Aurora Wrestling"
+    data-desc="Sports branding graphic for the Aurora Wrestling program.">
     <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #2f57d4 0%, #a8baf5 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+      <div class="gallery-thumb-inner">
+        <img class="gallery-img" src="Portfolio Pieces/Aurora Wrestling.jpg" alt="Aurora Wrestling">
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
     </div>
     <div class="gallery-info">
       <span class="gallery-cat">Branding</span>
-      <h3 class="gallery-title">Aurora Brewing Co.</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="web"
-    data-cat="Web Design"
-    data-title="Momentum Fitness"
-    data-desc="Website design and prototype for a boutique fitness studio — clean layout, bold typography, and a streamlined class booking flow.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #0d1120 0%, #2f57d4 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Web Design</span>
-      <h3 class="gallery-title">Momentum Fitness</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="print"
-    data-cat="Print"
-    data-title="Senior Showcase Poster"
-    data-desc="Event poster series for Aurora University's annual senior design showcase — typographic hierarchy and a structured editorial grid.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #d6dffa 0%, #4a72e8 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Print</span>
-      <h3 class="gallery-title">Senior Showcase Poster</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="campaign"
-    data-cat="Campaign"
-    data-title="Student Union Campaign"
-    data-desc="Integrated marketing campaign for Aurora University's Student Union — strategy, visual identity, and multi-channel execution across print and digital.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #3d4a6b 0%, #4a72e8 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Campaign</span>
-      <h3 class="gallery-title">Student Union Campaign</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="print"
-    data-cat="Print"
-    data-title="Type Study No. 3"
-    data-desc="Editorial typographic composition exploring contrast, scale, and negative space — produced as a limited-edition 18×24 risograph poster.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #0d1120 0%, #3d4a6b 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Print</span>
-      <h3 class="gallery-title">Type Study No. 3</h3>
+      <h3 class="gallery-title">Aurora Wrestling</h3>
     </div>
   </div>
 
   <div class="gallery-item"
     data-category="branding"
+    data-type="pdf"
+    data-src="Portfolio%20Pieces/ZooSymbol.pdf"
     data-cat="Branding"
-    data-title="Northside Coffee"
-    data-desc="Brand identity for a neighborhood coffee shop — wordmark, cup and bag packaging, and an in-store signage system.">
+    data-title="Zoo Symbol"
+    data-desc="Symbol and logomark design for a zoo organization.">
     <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #a8baf5 0%, #c9d0e8 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+      <div class="gallery-thumb-inner gallery-thumb-pdf" style="background: linear-gradient(135deg, #4a72e8 0%, #0d1120 100%);">
+        <svg class="pdf-thumb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+        <span class="pdf-thumb-label">Zoo Symbol</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
     </div>
     <div class="gallery-info">
       <span class="gallery-cat">Branding</span>
-      <h3 class="gallery-title">Northside Coffee</h3>
+      <h3 class="gallery-title">Zoo Symbol</h3>
     </div>
   </div>
 
   <div class="gallery-item"
-    data-category="digital"
-    data-cat="Digital"
-    data-title="Social Media Kit"
-    data-desc="Instagram and LinkedIn content system for a student organization — templates, color guidelines, and copy frameworks built for consistent weekly publishing.">
+    data-category="branding"
+    data-type="pdf"
+    data-src="Portfolio%20Pieces/SmokeTree.pdf"
+    data-cat="Branding"
+    data-title="Smoke Tree"
+    data-desc="Brand identity and design piece.">
     <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #4a72e8 0%, #d6dffa 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+      <div class="gallery-thumb-inner gallery-thumb-pdf" style="background: linear-gradient(135deg, #0d1120 0%, #3d4a6b 100%);">
+        <svg class="pdf-thumb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+        <span class="pdf-thumb-label">Smoke Tree</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
     </div>
     <div class="gallery-info">
-      <span class="gallery-cat">Digital</span>
-      <h3 class="gallery-title">Social Media Kit</h3>
+      <span class="gallery-cat">Branding</span>
+      <h3 class="gallery-title">Smoke Tree</h3>
+    </div>
+  </div>
+
+  <!-- ── PRINT ─────────────────────────────────────── -->
+
+  <div class="gallery-item"
+    data-category="print"
+    data-type="image"
+    data-src="Portfolio%20Pieces/SAMCARD.png"
+    data-cat="Print"
+    data-title="SAM Card"
+    data-desc="Business card design for the SAM brand — custom typography and layout.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner">
+        <img class="gallery-img" src="Portfolio Pieces/SAMCARD.png" alt="SAM Card">
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">SAM Card</h3>
     </div>
   </div>
 
   <div class="gallery-item"
-    data-category="campaign"
-    data-cat="Campaign"
-    data-title="Enrollment Drive"
-    data-desc="Awareness and conversion campaign targeting prospective transfer students — digital ads, landing page copy, and direct mail pieces.">
+    data-category="print"
+    data-type="pdf"
+    data-src="Portfolio%20Pieces/JumpManCardFRONT.pdf"
+    data-cat="Print"
+    data-title="JumpMan Card — Front"
+    data-desc="Front-side design for the JumpMan business card — brand identity and layout.">
     <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(135deg, #3d4a6b 0%, #a8baf5 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+      <div class="gallery-thumb-inner gallery-thumb-pdf" style="background: linear-gradient(135deg, #2f57d4 0%, #a8baf5 100%);">
+        <svg class="pdf-thumb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+        <span class="pdf-thumb-label">JumpMan — Front</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
     </div>
     <div class="gallery-info">
-      <span class="gallery-cat">Campaign</span>
-      <h3 class="gallery-title">Enrollment Drive</h3>
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">JumpMan Card — Front</h3>
     </div>
   </div>
 
   <div class="gallery-item"
-    data-category="web"
-    data-cat="Web Design"
-    data-title="Architecture Studio Site"
-    data-desc="Minimal portfolio website concept for a local architecture firm — editorial grid, full-bleed imagery, and project case study layouts.">
+    data-category="print"
+    data-type="pdf"
+    data-src="Portfolio%20Pieces/JumpManCardBACK.pdf"
+    data-cat="Print"
+    data-title="JumpMan Card — Back"
+    data-desc="Reverse side of the JumpMan business card — complementary layout with full brand consistency.">
     <div class="gallery-thumb">
-      <div class="gallery-thumb-inner" style="background: linear-gradient(160deg, #2f57d4 0%, #0d1120 100%);"></div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Project</span></div>
+      <div class="gallery-thumb-inner gallery-thumb-pdf" style="background: linear-gradient(135deg, #0d1120 0%, #2f57d4 100%);">
+        <svg class="pdf-thumb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+        <span class="pdf-thumb-label">JumpMan — Back</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
     </div>
     <div class="gallery-info">
-      <span class="gallery-cat">Web Design</span>
-      <h3 class="gallery-title">Architecture Studio Site</h3>
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">JumpMan Card — Back</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="print"
+    data-type="pdf"
+    data-src="Portfolio%20Pieces/mirrorfinishcard.pdf"
+    data-cat="Print"
+    data-title="Mirror Finish Card"
+    data-desc="High-concept business card design with a mirror-finish treatment.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner gallery-thumb-pdf" style="background: linear-gradient(160deg, #3d4a6b 0%, #7b87ab 100%);">
+        <svg class="pdf-thumb-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+        </svg>
+        <span class="pdf-thumb-label">Mirror Finish Card</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Print</span>
+      <h3 class="gallery-title">Mirror Finish Card</h3>
+    </div>
+  </div>
+
+  <!-- ── PHOTOGRAPHY ────────────────────────────────── -->
+
+  <div class="gallery-item"
+    data-category="photography"
+    data-type="image"
+    data-src="Portfolio%20Pieces/Dishes.jpg"
+    data-cat="Photography"
+    data-title="Dishes"
+    data-desc="Commercial food photography — culinary composition and styling.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner">
+        <img class="gallery-img" src="Portfolio Pieces/Dishes.jpg" alt="Dishes">
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Photography</span>
+      <h3 class="gallery-title">Dishes</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="photography"
+    data-type="image"
+    data-src="Portfolio%20Pieces/Field.jpg"
+    data-cat="Photography"
+    data-title="Field"
+    data-desc="Outdoor photographic composition.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner">
+        <img class="gallery-img" src="Portfolio Pieces/Field.jpg" alt="Field">
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Photography</span>
+      <h3 class="gallery-title">Field</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="photography"
+    data-type="image"
+    data-src="Portfolio%20Pieces/2.jpg"
+    data-cat="Photography"
+    data-title="No. 2"
+    data-desc="Photographic composition.">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-inner">
+        <img class="gallery-img" src="Portfolio Pieces/2.jpg" alt="No. 2">
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Photography</span>
+      <h3 class="gallery-title">No. 2</h3>
     </div>
   </div>
 
@@ -544,13 +688,18 @@
   <button class="lightbox-close" id="lightbox-close">&#215;</button>
   <div class="lightbox-panel">
     <div class="lightbox-visual">
-      <div class="lightbox-visual-inner" id="lb-visual"></div>
+      <div id="lb-visual"></div>
     </div>
     <div class="lightbox-details">
       <span class="lightbox-cat" id="lb-cat"></span>
       <h2 class="lightbox-title" id="lb-title"></h2>
       <p class="lightbox-desc" id="lb-desc"></p>
-      <p class="lightbox-placeholder-note">Placeholder — real work coming soon</p>
+      <a id="lb-download" href="#" download class="lightbox-download">
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 1a.75.75 0 0 1 .75.75v7.19l2.47-2.47a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L3.72 7.53a.75.75 0 0 1 1.06-1.06L7.25 8.94V1.75A.75.75 0 0 1 8 1ZM2 13.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"/>
+        </svg>
+        Download
+      </a>
     </div>
   </div>
 </div>
@@ -572,18 +721,40 @@
 </div>
 
 <script>
-  const lightbox = document.getElementById('lightbox');
-  const lbVisual = document.getElementById('lb-visual');
-  const lbCat    = document.getElementById('lb-cat');
-  const lbTitle  = document.getElementById('lb-title');
-  const lbDesc   = document.getElementById('lb-desc');
+  const lightbox   = document.getElementById('lightbox');
+  const lbVisual   = document.getElementById('lb-visual');
+  const lbCat      = document.getElementById('lb-cat');
+  const lbTitle    = document.getElementById('lb-title');
+  const lbDesc     = document.getElementById('lb-desc');
+  const lbDownload = document.getElementById('lb-download');
 
   document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
-      lbVisual.style.background = item.querySelector('.gallery-thumb-inner').style.background;
+      const type = item.dataset.type;
+      const src  = item.dataset.src;
+
+      // Populate visual area
+      lbVisual.innerHTML = '';
+      if (type === 'image') {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = item.dataset.title;
+        lbVisual.appendChild(img);
+      } else {
+        const iframe = document.createElement('iframe');
+        iframe.src   = src;
+        iframe.title = item.dataset.title;
+        iframe.setAttribute('allowfullscreen', '');
+        lbVisual.appendChild(iframe);
+      }
+
+      // Populate text + download
       lbCat.textContent   = item.dataset.cat;
       lbTitle.textContent = item.dataset.title;
       lbDesc.textContent  = item.dataset.desc;
+      lbDownload.href     = src;
+      lbDownload.setAttribute('download', item.dataset.title);
+
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
@@ -592,21 +763,22 @@
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
+    // Clear iframe/img so PDF stops loading in background
+    lbVisual.innerHTML = '';
   }
 
   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
   lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  // Filter
+  // Category filter
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
       document.querySelectorAll('.gallery-item').forEach(item => {
-        const show = filter === 'all' || item.dataset.category === filter;
-        item.classList.toggle('hidden', !show);
+        item.classList.toggle('hidden', filter !== 'all' && item.dataset.category !== filter);
       });
     });
   });
