@@ -10,7 +10,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --white:     #f7f8fc;
+      --white:     #eef1f8;
       --blue-100:  #d6dffa;
       --blue-200:  #a8baf5;
       --blue-400:  #4a72e8;
@@ -37,7 +37,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(247,248,252,0.93);
+      background: rgba(238,241,248,0.93);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--blue-100);
     }
@@ -983,7 +983,7 @@
     { file: 'Website Music/Cool Out.mp3',                 title: 'cool out',                artist: 'leroy hutson'       },
   ];
   let idx = 0, isPlaying = false;
-  const audio = new Audio(); audio.volume = 0.5;
+  const audio = new Audio(); audio.volume = 0.3;
   const btn    = document.getElementById('player-btn');
   const ticker = document.getElementById('player-ticker');
   const SVG_PLAY  = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M3 2.5l11 5.5-11 5.5z"/></svg>';

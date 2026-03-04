@@ -10,7 +10,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --white:     #f7f8fc;
+      --white:     #eef1f8;
       --blue-100:  #d6dffa;
       --blue-200:  #a8baf5;
       --blue-400:  #4a72e8;
@@ -37,7 +37,7 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(247,248,252,0.93);
+      background: rgba(238,241,248,0.93);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--blue-100);
     }
@@ -156,7 +156,7 @@
       width: 680px; height: 680px;
       border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #bfcdf8 0%, #dce6fc 40%, transparent 72%);
-      opacity: 0.45;
+      opacity: 0.58;
       pointer-events: none;
       animation:
         blobWarp 11s ease-in-out 0s infinite,
@@ -168,7 +168,7 @@
       width: 420px; height: 420px;
       border-radius: 50%;
       background: radial-gradient(circle at 60% 55%, #bfcdf8 0%, #dce6fc 45%, transparent 70%);
-      opacity: 0.28;
+      opacity: 0.38;
       pointer-events: none;
       animation:
         blobWarp 15s ease-in-out 0s infinite reverse,
@@ -180,7 +180,7 @@
       width: 260px; height: 260px;
       border-radius: 50%;
       background: radial-gradient(circle at 45% 45%, #a8baf5 0%, #dce6fc 50%, transparent 72%);
-      opacity: 0.22;
+      opacity: 0.32;
       pointer-events: none;
       animation:
         blobWarp 13s ease-in-out 4s infinite,
@@ -193,7 +193,7 @@
       width: 480px; height: 480px;
       border-radius: 50%;
       background: radial-gradient(circle at 50% 40%, #c8d8fb 0%, #e2eafd 45%, transparent 72%);
-      opacity: 0.18;
+      opacity: 0.26;
       pointer-events: none;
       animation:
         blobWarp 22s ease-in-out 8s infinite reverse,
@@ -205,7 +205,7 @@
       width: 320px; height: 320px;
       border-radius: 50%;
       background: radial-gradient(circle at 40% 55%, #b8ccf8 0%, #d8e5fc 48%, transparent 72%);
-      opacity: 0.16;
+      opacity: 0.24;
       pointer-events: none;
       animation:
         blobWarp2 19s ease-in-out 5s infinite,
@@ -217,7 +217,7 @@
       width: 170px; height: 170px;
       border-radius: 50%;
       background: radial-gradient(circle at 45% 45%, #a8baf5 0%, #cdd9fb 50%, transparent 72%);
-      opacity: 0.15;
+      opacity: 0.22;
       pointer-events: none;
       animation:
         blobWarp2 8s ease-in-out 2s infinite reverse,
@@ -509,7 +509,7 @@
   let idx = 0;
   let isPlaying = false;
   const audio  = new Audio();
-  audio.volume = 0.5;
+  audio.volume = 0.3;
   const btn    = document.getElementById('player-btn');
   const ticker = document.getElementById('player-ticker');
 
