@@ -48,16 +48,16 @@
     }
     .nav-links {
       display: flex;
-      gap: 2.4rem;
+      gap: 3.2rem;
       list-style: none;
     }
     .nav-links a {
       text-decoration: none;
-      font-size: 0.74rem;
-      letter-spacing: 0.13em;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--slate-400);
-      padding: 1.2rem 0 1rem;
+      padding: 1.6rem 0 1.4rem;
       border-bottom: 2px solid transparent;
       transition: color 0.2s, border-color 0.2s;
       display: block;
@@ -96,6 +96,27 @@
       pointer-events: none;
       animation: blobWarp 11s ease-in-out infinite;
     }
+    .hero-blob-bl {
+      position: absolute;
+      bottom: -140px; left: -120px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 60% 55%, #bfcdf8 0%, #dce6fc 45%, transparent 70%);
+      opacity: 0.28;
+      pointer-events: none;
+      animation: blobWarp 15s ease-in-out infinite reverse;
+    }
+    .hero-blob-mid {
+      position: absolute;
+      bottom: 60px; right: 80px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 45% 45%, #a8baf5 0%, #dce6fc 50%, transparent 72%);
+      opacity: 0.22;
+      pointer-events: none;
+      animation: blobWarp 13s ease-in-out 4s infinite;
+    }
+
     .hero-bg-line {
       position: absolute;
       bottom: 90px; left: 0;
@@ -274,6 +295,8 @@
 
 <section id="hero">
   <div class="hero-bg-blob"></div>
+  <div class="hero-blob-bl"></div>
+  <div class="hero-blob-mid"></div>
   <div class="hero-bg-line"></div>
   <div class="hero-content">
     <h1 class="hero-name">Zane Ely</h1>
