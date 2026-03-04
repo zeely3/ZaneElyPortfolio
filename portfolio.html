@@ -376,6 +376,45 @@
       letter-spacing: 0.05em;
     }
 
+    /* WEB PLACEHOLDER THUMBNAIL */
+    .gallery-thumb-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      background: linear-gradient(135deg, #dce6fc 0%, #eaf0fb 55%, #f2f5fc 100%);
+    }
+    .gallery-thumb-placeholder svg {
+      width: 36px; height: 36px;
+      fill: var(--blue-200);
+    }
+    .gallery-thumb-placeholder span {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue-200);
+    }
+
+    /* VIEW SITE BUTTON */
+    .btn-view-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue-500);
+      color: #fff;
+      padding: 0.75rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-view-site:hover { background: var(--blue-400); transform: translateY(-2px); }
+    #lb-link { margin-top: 0.5rem; }
+
     /* ANIMATIONS */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
@@ -450,6 +489,7 @@
   <button class="filter-btn" data-filter="branding">Branding</button>
   <button class="filter-btn" data-filter="print">Print</button>
   <button class="filter-btn" data-filter="photography">Photography</button>
+  <button class="filter-btn" data-filter="web">Web</button>
 </div>
 
 <div class="gallery" id="gallery">
@@ -491,44 +531,6 @@
     <div class="gallery-info">
       <span class="gallery-cat">Print</span>
       <h3 class="gallery-title">Zoo Symbol</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="branding"
-    data-type="image"
-    data-src="Portfolio%20Pieces/Smoke-Tree-1.jpg"
-    data-cat="Branding"
-    data-title="Smoke Tree"
-    data-desc="Brand identity and design piece.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner">
-        <img class="gallery-img" src="Portfolio Pieces/Smoke-Tree-1.jpg" alt="Smoke Tree">
-      </div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Branding</span>
-      <h3 class="gallery-title">Smoke Tree</h3>
-    </div>
-  </div>
-
-  <div class="gallery-item"
-    data-category="branding"
-    data-type="image"
-    data-src="Portfolio%20Pieces/Smoke-Tree-2.jpg"
-    data-cat="Branding"
-    data-title="Smoke Tree"
-    data-desc="Brand identity and design piece.">
-    <div class="gallery-thumb">
-      <div class="gallery-thumb-inner">
-        <img class="gallery-img" src="Portfolio Pieces/Smoke-Tree-2.jpg" alt="Smoke Tree">
-      </div>
-      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
-    </div>
-    <div class="gallery-info">
-      <span class="gallery-cat">Branding</span>
-      <h3 class="gallery-title">Smoke Tree</h3>
     </div>
   </div>
 
@@ -629,6 +631,48 @@
     </div>
   </div>
 
+  <!-- ── WEB ──────────────────────────────────────── -->
+
+  <div class="gallery-item"
+    data-category="web"
+    data-type="web"
+    data-cat="Web Design"
+    data-title="Chasewood Learning"
+    data-desc="Website designed for Chasewood Learning"
+    data-url="https://www.chasewoodlearning.com/">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-placeholder">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <span>Image Coming Soon</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Web Design</span>
+      <h3 class="gallery-title">Chasewood Learning</h3>
+    </div>
+  </div>
+
+  <div class="gallery-item"
+    data-category="web"
+    data-type="web"
+    data-cat="Web Design"
+    data-title="Henry's Farm"
+    data-desc="Developed mood boards and wire frames, helped optimize UI/UX design"
+    data-url="https://www.henrysfarm.com/">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-placeholder">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <span>Image Coming Soon</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Web Design</span>
+      <h3 class="gallery-title">Henry's Farm</h3>
+    </div>
+  </div>
+
   <!-- ── PHOTOGRAPHY ────────────────────────────────── -->
 
   <div class="gallery-item"
@@ -701,6 +745,7 @@
       <span class="lightbox-cat" id="lb-cat"></span>
       <h2 class="lightbox-title" id="lb-title"></h2>
       <p class="lightbox-desc" id="lb-desc"></p>
+      <div id="lb-link"></div>
     </div>
   </div>
 </div>
@@ -718,7 +763,6 @@
 </footer>
 <div class="footer-bottom">
   <span>© 2026 Zane Ely</span>
-  <span>Aurora University</span>
 </div>
 
 <script>
@@ -727,6 +771,7 @@
   const lbCat      = document.getElementById('lb-cat');
   const lbTitle    = document.getElementById('lb-title');
   const lbDesc     = document.getElementById('lb-desc');
+  const lbLink     = document.getElementById('lb-link');
 
   document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -740,6 +785,12 @@
         img.src = src;
         img.alt = item.dataset.title;
         lbVisual.appendChild(img);
+      } else if (type === 'web') {
+        lbVisual.innerHTML = `
+          <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;background:linear-gradient(135deg,#dce6fc 0%,#eaf0fb 55%,#f2f5fc 100%);">
+            <svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:#a8baf5" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            <span style="font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:#a8baf5;">Image Coming Soon</span>
+          </div>`;
       } else {
         const iframe = document.createElement('iframe');
         iframe.src   = src;
@@ -748,10 +799,17 @@
         lbVisual.appendChild(iframe);
       }
 
-      // Populate text + download
+      // Populate text
       lbCat.textContent   = item.dataset.cat;
       lbTitle.textContent = item.dataset.title;
       lbDesc.textContent  = item.dataset.desc;
+
+      // View Site button (web items only)
+      lbLink.innerHTML = '';
+      if (item.dataset.url) {
+        lbLink.innerHTML = `<a href="${item.dataset.url}" target="_blank" rel="noopener noreferrer" class="btn-view-site">View Site ↗</a>`;
+      }
+
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
