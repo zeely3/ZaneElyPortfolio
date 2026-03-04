@@ -297,25 +297,7 @@
       line-height: 1.7;
       margin-bottom: 2rem;
     }
-    .lightbox-download {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      background: var(--blue-500);
-      color: #fff;
-      padding: 0.75rem 1.5rem;
-      border-radius: 2px;
-      text-decoration: none;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: background 0.2s;
-      align-self: flex-start;
-    }
-    .lightbox-download:hover { background: var(--blue-400); }
-    .lightbox-download svg { width: 13px; height: 13px; fill: currentColor; }
-
-    .lightbox-close {
+.lightbox-close {
       position: fixed;
       top: 1.5rem; right: 1.5rem;
       background: rgba(247,248,252,0.12);
@@ -694,12 +676,6 @@
       <span class="lightbox-cat" id="lb-cat"></span>
       <h2 class="lightbox-title" id="lb-title"></h2>
       <p class="lightbox-desc" id="lb-desc"></p>
-      <a id="lb-download" href="#" download class="lightbox-download">
-        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 1a.75.75 0 0 1 .75.75v7.19l2.47-2.47a.75.75 0 1 1 1.06 1.06l-3.75 3.75a.75.75 0 0 1-1.06 0L3.72 7.53a.75.75 0 0 1 1.06-1.06L7.25 8.94V1.75A.75.75 0 0 1 8 1ZM2 13.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"/>
-        </svg>
-        Download
-      </a>
     </div>
   </div>
 </div>
@@ -726,7 +702,6 @@
   const lbCat      = document.getElementById('lb-cat');
   const lbTitle    = document.getElementById('lb-title');
   const lbDesc     = document.getElementById('lb-desc');
-  const lbDownload = document.getElementById('lb-download');
 
   document.querySelectorAll('.gallery-item').forEach(item => {
     item.addEventListener('click', () => {
@@ -752,9 +727,6 @@
       lbCat.textContent   = item.dataset.cat;
       lbTitle.textContent = item.dataset.title;
       lbDesc.textContent  = item.dataset.desc;
-      lbDownload.href     = src;
-      lbDownload.setAttribute('download', item.dataset.title);
-
       lightbox.classList.add('open');
       document.body.style.overflow = 'hidden';
     });
