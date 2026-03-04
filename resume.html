@@ -443,6 +443,11 @@
     if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); }
     else { if (!audio.src) loadTrack(0); tryPlay(); }
   });
+  // Shuffle playlist so each page visit starts on a different track
+  for (let i = playlist.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
+  }
   loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
   function unlock() { if (!isPlaying) tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
   document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock);

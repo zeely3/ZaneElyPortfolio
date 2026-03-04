@@ -483,6 +483,7 @@
     .gallery-item:nth-child(10) { animation-delay: 0.50s; }
     .gallery-item:nth-child(11) { animation-delay: 0.55s; }
     .gallery-item:nth-child(12) { animation-delay: 0.60s; }
+    .gallery-item:nth-child(13) { animation-delay: 0.65s; }
 
     @media (max-width: 900px) {
       .nav-inner { padding: 0 2rem; }
@@ -535,7 +536,7 @@
   <div class="page-header-inner">
     <p class="page-eyebrow">Selected Work</p>
     <h1 class="page-title">Portfolio</h1>
-    <p class="page-sub">Branding, print, and photography work. Click any piece to view it full-size.</p>
+    <p class="page-sub">Branding, print, photography, web design, and social media work. Click any piece to view it full-size.</p>
   </div>
 </div>
 
@@ -545,6 +546,7 @@
   <button class="filter-btn" data-filter="print">Print</button>
   <button class="filter-btn" data-filter="photography">Photography</button>
   <button class="filter-btn" data-filter="web">Web</button>
+  <button class="filter-btn" data-filter="social">Social Media</button>
 </div>
 
 <div class="gallery" id="gallery">
@@ -725,6 +727,28 @@
     <div class="gallery-info">
       <span class="gallery-cat">Web Design</span>
       <h3 class="gallery-title">Henry's Farm</h3>
+    </div>
+  </div>
+
+  <!-- ── SOCIAL MEDIA ─────────────────────────────── -->
+
+  <div class="gallery-item"
+    data-category="social"
+    data-type="web"
+    data-cat="Social Media"
+    data-title="Chasewood Learning"
+    data-desc="Social media branding for Chasewood Learning"
+    data-url="https://www.facebook.com/chasewoodlearning/">
+    <div class="gallery-thumb">
+      <div class="gallery-thumb-placeholder">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        <span>Image Coming Soon</span>
+      </div>
+      <div class="gallery-overlay"><span class="gallery-overlay-text">View Piece</span></div>
+    </div>
+    <div class="gallery-info">
+      <span class="gallery-cat">Social Media</span>
+      <h3 class="gallery-title">Chasewood Learning</h3>
     </div>
   </div>
 
@@ -925,6 +949,11 @@
     if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); }
     else { if (!audio.src) loadTrack(0); tryPlay(); }
   });
+  // Shuffle playlist so each page visit starts on a different track
+  for (let i = playlist.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
+  }
   loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
   function unlock() { if (!isPlaying) tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
   document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock);
