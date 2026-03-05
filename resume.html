@@ -227,6 +227,63 @@
       margin-bottom: 0.2rem;
     }
 
+    /* MOBILE RESUME CTA */
+    .resume-mobile-cta {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      border: 1px solid var(--blue-100);
+      border-radius: 2px;
+      padding: 3rem 1.5rem;
+      background: #f0f2f8;
+      text-align: center;
+    }
+    .resume-mobile-cta svg {
+      width: 48px; height: 48px;
+      fill: var(--blue-200);
+    }
+    .resume-mobile-cta p {
+      font-size: 0.85rem;
+      color: var(--slate-400);
+      letter-spacing: 0.03em;
+    }
+    .resume-mobile-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+    .btn-view-pdf {
+      display: block;
+      background: var(--blue-500);
+      color: #fff;
+      padding: 0.9rem 1.8rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn-view-pdf:hover { background: var(--blue-400); }
+    .btn-download-ghost {
+      display: block;
+      background: transparent;
+      color: var(--blue-500);
+      padding: 0.9rem 1.8rem;
+      border-radius: 2px;
+      border: 1px solid var(--blue-500);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-download-ghost:hover { background: var(--blue-500); color: #fff; }
+
     /* FOOTER */
     footer {
       background: var(--black);
@@ -346,7 +403,8 @@
       .nav-links li:last-child a { border-bottom: none; }
       .page-header { padding: 4.5rem 1.5rem 0; }
       .resume-container { padding: 1.5rem 1.5rem 3rem; }
-      .resume-embed-wrapper { height: 65vh; min-height: 400px; }
+      .resume-embed-wrapper { display: none; }
+      .resume-mobile-cta { display: flex; }
     }
   </style>
 </head>
@@ -411,6 +469,18 @@
         <p><strong>PDF not available</strong>Your browser doesn't support inline PDF viewing. Use the Download button above.</p>
       </div>
     </noscript>
+  </div>
+
+  <!-- Mobile: shown instead of the iframe -->
+  <div class="resume-mobile-cta">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/>
+    </svg>
+    <p>Tap below to view or download the full resume.</p>
+    <div class="resume-mobile-buttons">
+      <a href="ZaneElyResume26.pdf" target="_blank" class="btn-view-pdf">View Resume</a>
+      <a href="ZaneElyResume26.pdf" download class="btn-download-ghost">Download PDF</a>
+    </div>
   </div>
 </div>
 
