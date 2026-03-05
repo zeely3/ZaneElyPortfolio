@@ -61,7 +61,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      color: var(--slate-400);
+      color: var(--slate-600);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -85,7 +85,7 @@
       font-size: 0.63rem;
       letter-spacing: 0.13em;
       text-transform: uppercase;
-      color: var(--slate-400);
+      color: var(--slate-600);
       animation: tickerScroll 22s linear infinite;
       will-change: transform;
     }
@@ -112,16 +112,21 @@
     .nav-links a:hover,
     .nav-links a.active { color: var(--blue-400); border-bottom-color: var(--blue-400); }
 
+    /* HERO WRAPPER — blobs animate through both hero and value-prop */
+    #hero-vp-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
     /* HERO */
     #hero {
-      min-height: 100vh;
+      min-height: 72vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: flex-start;
       padding: 7rem 4rem 5rem;
       position: relative;
-      overflow: hidden;
     }
 
     @keyframes blobWarp {
@@ -234,7 +239,7 @@
 
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       width: 100%;
     }
 
@@ -309,6 +314,7 @@
       padding: 7rem 4rem;
       border-top: 1px solid var(--blue-100);
       position: relative;
+      z-index: 1;
     }
     .vp-inner { max-width: 1100px; margin: 0 auto; }
     .vp-lead { max-width: 580px; margin-bottom: 3.5rem; }
@@ -529,25 +535,27 @@
   </div>
 </nav>
 
-<section id="hero">
+<div id="hero-vp-wrap">
   <div class="hero-bg-blob"></div>
   <div class="hero-blob-bl"></div>
   <div class="hero-blob-mid"></div>
   <div class="hero-blob-cl"></div>
   <div class="hero-blob-tr2"></div>
   <div class="hero-blob-sm"></div>
-  <div class="hero-bg-line"></div>
-  <div class="hero-content">
-    <h1 class="hero-name">Zane Ely</h1>
-    <p class="hero-sub">Marketing and graphic design student building brands, websites, and campaigns that connect with people.</p>
-    <div class="hero-actions">
-      <a href="portfolio.html" class="btn-primary">See My Work</a>
-      <a href="resume.html" class="btn-ghost">View My Resume</a>
-    </div>
-  </div>
-</section>
 
-<section id="value-prop">
+  <section id="hero">
+    <div class="hero-bg-line"></div>
+    <div class="hero-content">
+      <h1 class="hero-name">Zane Ely</h1>
+      <p class="hero-sub">Marketing and graphic design student building brands, websites, and campaigns that connect with people.</p>
+      <div class="hero-actions">
+        <a href="portfolio.html" class="btn-primary">See My Work</a>
+        <a href="resume.html" class="btn-ghost">View My Resume</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="value-prop">
   <div class="vp-inner">
 
     <div class="vp-lead">
@@ -579,6 +587,7 @@
 
   </div>
 </section>
+</div><!-- /#hero-vp-wrap -->
 
 <footer>
   <div class="footer-left">
