@@ -304,6 +304,69 @@
 
     @keyframes scrollPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
 
+    /* VALUE PROPOSITION */
+    #value-prop {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--blue-100);
+      position: relative;
+    }
+    .vp-inner { max-width: 1100px; margin: 0 auto; }
+    .vp-lead { max-width: 580px; margin-bottom: 3.5rem; }
+    .vp-eyebrow {
+      font-size: 0.73rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.8rem;
+    }
+    .vp-heading {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      color: var(--black);
+      font-weight: 400;
+      margin-bottom: 1.2rem;
+    }
+    .vp-intro {
+      font-size: 0.97rem;
+      color: var(--slate-600);
+      line-height: 1.8;
+    }
+    .vp-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.2rem;
+      margin-bottom: 3rem;
+    }
+    .vp-card {
+      border: 1px solid var(--blue-100);
+      border-radius: 2px;
+      padding: 1.8rem 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .vp-card:hover { border-color: var(--blue-200); transform: translateY(-3px); }
+    .vp-card-cat {
+      display: block;
+      font-size: 0.67rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blue-400);
+      margin-bottom: 0.75rem;
+    }
+    .vp-card-desc {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      line-height: 1.7;
+    }
+    .vp-closing {
+      font-size: 0.92rem;
+      color: var(--slate-400);
+      line-height: 1.8;
+      max-width: 780px;
+      padding-top: 2rem;
+      border-top: 1px solid var(--blue-100);
+    }
+
     /* FOOTER */
     footer {
       background: var(--black);
@@ -381,6 +444,8 @@
       .nav-inner { padding: 0 2rem; }
       #hero { padding: 6rem 2rem 5rem; }
       .hero-name { font-size: clamp(3.5rem, 16vw, 6rem); white-space: normal; }
+      #value-prop { padding: 5rem 2rem; }
+      .vp-grid { grid-template-columns: repeat(2, 1fr); }
       footer { flex-direction: column; align-items: flex-start; padding: 3rem 2rem; }
       .footer-right { align-items: flex-start; }
       .footer-bottom { padding: 1rem 2rem; flex-direction: column; gap: 0.3rem; }
@@ -433,6 +498,8 @@
       .nav-links li:last-child a { border-bottom: none; }
       #hero { padding: 5rem 1.5rem 4rem; }
       .hero-name { font-size: clamp(4.5rem, 21vw, 7rem); }
+      #value-prop { padding: 4rem 1.5rem; }
+      .vp-grid { grid-template-columns: 1fr; }
       .hero-actions { flex-wrap: wrap; }
       .btn-primary, .btn-ghost { flex: 1 1 auto; text-align: center; justify-content: center; }
     }
@@ -477,6 +544,39 @@
       <a href="portfolio.html" class="btn-primary">See My Work</a>
       <a href="resume.html" class="btn-ghost">View My Resume</a>
     </div>
+  </div>
+</section>
+
+<section id="value-prop">
+  <div class="vp-inner">
+
+    <div class="vp-lead">
+      <p class="vp-eyebrow">What I Offer</p>
+      <h2 class="vp-heading">Design. Strategy.<br>Execution.</h2>
+      <p class="vp-intro">Marketing &amp; Graphic Design graduate with hands-on experience turning creative ideas into measurable results. I combine strategic marketing thinking with strong design execution, making me effective across both disciplines from day one.</p>
+    </div>
+
+    <div class="vp-grid">
+      <div class="vp-card">
+        <span class="vp-card-cat">UI/UX &amp; Web Design</span>
+        <p class="vp-card-desc">Wireframing, user experience audits, and website optimization that improves engagement.</p>
+      </div>
+      <div class="vp-card">
+        <span class="vp-card-cat">Brand &amp; Visual Design</span>
+        <p class="vp-card-desc">Cohesive graphic design across digital and print using Adobe Suite.</p>
+      </div>
+      <div class="vp-card">
+        <span class="vp-card-cat">Digital Marketing</span>
+        <p class="vp-card-desc">Social media strategy, content creation, and copywriting that builds brand awareness.</p>
+      </div>
+      <div class="vp-card">
+        <span class="vp-card-cat">Technical Fluency</span>
+        <p class="vp-card-desc">HTML, CSS, Power BI, and Excel to back up creative work with data.</p>
+      </div>
+    </div>
+
+    <p class="vp-closing">I've applied these skills professionally — consulting on UX for a small business, optimizing digital marketing at a growing company, and communicating complex information clearly in high-stakes environments. Fast learner, reliable communicator, self-starter ready to contribute from day one.</p>
+
   </div>
 </section>
 
@@ -551,9 +651,11 @@
   btn.addEventListener('click', () => {
     if (isPlaying) {
       audio.pause(); isPlaying = false; setBtn(false);
+      localStorage.setItem('musicPaused', 'true');
     } else {
       if (!audio.src) loadTrack(0);
       tryPlay();
+      localStorage.setItem('musicPaused', 'false');
     }
   });
 
@@ -562,16 +664,20 @@
     const j = Math.floor(Math.random() * (i + 1));
     [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
   }
-  loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
+  const wasPaused = localStorage.getItem('musicPaused') === 'true';
+  loadTrack(0); setBtn(false);
+  if (!wasPaused) setTimeout(tryPlay, 150);
 
-  // Unlock autoplay on first user gesture if blocked
+  // Unlock autoplay on first user gesture if blocked (only when not manually paused)
   function unlock() {
-    if (!isPlaying) tryPlay();
+    if (!isPlaying && localStorage.getItem('musicPaused') !== 'true') tryPlay();
     document.removeEventListener('click',      unlock);
     document.removeEventListener('touchstart', unlock);
   }
-  document.addEventListener('click',      unlock);
-  document.addEventListener('touchstart', unlock);
+  if (!wasPaused) {
+    document.addEventListener('click',      unlock);
+    document.addEventListener('touchstart', unlock);
+  }
 }());
 </script>
 <script>

@@ -1043,17 +1043,19 @@
   function tryPlay() { audio.play().then(() => { isPlaying = true; setBtn(true); }).catch(() => { isPlaying = false; setBtn(false); }); }
   audio.addEventListener('ended', () => { loadTrack(idx + 1); tryPlay(); });
   btn.addEventListener('click', () => {
-    if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); }
-    else { if (!audio.src) loadTrack(0); tryPlay(); }
+    if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); localStorage.setItem('musicPaused', 'true'); }
+    else { if (!audio.src) loadTrack(0); tryPlay(); localStorage.setItem('musicPaused', 'false'); }
   });
   // Shuffle playlist so each page visit starts on a different track
   for (let i = playlist.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
   }
-  loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
-  function unlock() { if (!isPlaying) tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
-  document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock);
+  const wasPaused = localStorage.getItem('musicPaused') === 'true';
+  loadTrack(0); setBtn(false);
+  if (!wasPaused) setTimeout(tryPlay, 150);
+  function unlock() { if (!isPlaying && localStorage.getItem('musicPaused') !== 'true') tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
+  if (!wasPaused) { document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock); }
 }());
 </script>
 

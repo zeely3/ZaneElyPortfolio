@@ -438,7 +438,7 @@
       <p class="page-sub">Designer, marketer, and creative thinker based in Aurora, Illinois.</p>
     </div>
     <div class="page-header-headshot-mobile">
-      <img src="ZaneElyHeadshot.jpg" alt="Zane Ely">
+      <img src="HeadShot.jpg" alt="Zane Ely">
     </div>
   </div>
 </div>
@@ -473,10 +473,10 @@
   <!-- RIGHT: Bio + Headshot -->
   <div class="about-right">
 
-    <p class="bio-text">I'm Zane Ely, a Marketing and Graphic Design student at Aurora University wrapping up my degree in May 2026. I love the overlap between design and strategy, whether that's building out a brand identity, improving how a website feels to use, or creating social content that actually gets people's attention. My toolkit includes Adobe Suite, HTML, CSS, and a strong focus on UI/UX design. Outside of the classroom, I stay active through wrestling and yoga, unwind with LEGOs and fishing, and bring that same hands-on energy into my creative work. I'm a Dean's List student, Chess Club President, and NWCA Scholar All-American, and I try to bring that same level of focus and drive to everything I work on.</p>
+    <p class="bio-text">I grew up in Morton, Illinois and have been wrestling since I was three years old. The sport took me to Aurora University, where I'm wrapping up my Marketing and Graphic Design degree this May. I first got into graphic design in high school and fell in love with it almost immediately. College introduced me to marketing, and once I saw how the two worked together I was hooked. I genuinely see it as an art form with endless creative potential. At Aurora I've made the Dean's List, served as Chess Club President, and earned NWCA Scholar All-American honors. That same drive I learned on the mat shows up in my work too. When I'm not designing or in the classroom, I'm probably out fishing or building Legos. My proudest catch is a 3 pound muskie from the Shelbyville Spillway, and the Home Alone house is still my favorite build. I also stay active through yoga and whatever friendly competition I can rope my friends into, pickleball being a recent favorite.</p>
 
     <div class="headshot-container">
-      <img src="ZaneElyHeadshot.jpg" alt="Zane Ely">
+      <img src="HeadShot.jpg" alt="Zane Ely">
     </div>
 
   </div>
@@ -526,17 +526,19 @@
   function tryPlay() { audio.play().then(() => { isPlaying = true; setBtn(true); }).catch(() => { isPlaying = false; setBtn(false); }); }
   audio.addEventListener('ended', () => { loadTrack(idx + 1); tryPlay(); });
   btn.addEventListener('click', () => {
-    if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); }
-    else { if (!audio.src) loadTrack(0); tryPlay(); }
+    if (isPlaying) { audio.pause(); isPlaying = false; setBtn(false); localStorage.setItem('musicPaused', 'true'); }
+    else { if (!audio.src) loadTrack(0); tryPlay(); localStorage.setItem('musicPaused', 'false'); }
   });
   // Shuffle playlist so each page visit starts on a different track
   for (let i = playlist.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [playlist[i], playlist[j]] = [playlist[j], playlist[i]];
   }
-  loadTrack(0); setBtn(false); setTimeout(tryPlay, 150);
-  function unlock() { if (!isPlaying) tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
-  document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock);
+  const wasPaused = localStorage.getItem('musicPaused') === 'true';
+  loadTrack(0); setBtn(false);
+  if (!wasPaused) setTimeout(tryPlay, 150);
+  function unlock() { if (!isPlaying && localStorage.getItem('musicPaused') !== 'true') tryPlay(); document.removeEventListener('click', unlock); document.removeEventListener('touchstart', unlock); }
+  if (!wasPaused) { document.addEventListener('click', unlock); document.addEventListener('touchstart', unlock); }
 }());
 </script>
 
